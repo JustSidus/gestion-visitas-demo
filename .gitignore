@@ -1,0 +1,43 @@
+# Backend (Laravel)
+/backend/.phpunit.cache
+/backend/node_modules
+/backend/public/build
+/backend/public/hot
+/backend/public/storage
+/backend/storage/*.key
+/backend/storage/pail
+/backend/vendor
+/backend/.env
+/backend/.env.backup
+/backend/.env.production
+/backend/.phpactor.json
+/backend/.phpunit.result.cache
+/backend/Homestead.json
+/backend/Homestead.yaml
+/backend/npm-debug.log
+/backend/yarn-error.log
+/backend/auth.json
+
+# Frontend (Vue/Node)
+/frontend/node_modules
+/frontend/dist
+/frontend/.env
+/frontend/.env.*
+/frontend/.vite
+
+# Node raíz
+/node_modules
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+
+# Laragon / local
+.env.local

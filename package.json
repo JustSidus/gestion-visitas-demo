@@ -1,0 +1,26 @@
+{
+    "name": "gestion-de-visitas-monorepo",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "description": "Monorepo unificado - Backend Laravel + Frontend Vue",
+    "scripts": {
+        "dev": "concurrently --kill-others-on-fail \"npm run dev:backend\" \"npm run dev:frontend\"",
+        "dev:backend": "cd backend && php artisan serve --host=127.0.0.1 --port=8000",
+        "dev:frontend": "cd frontend && npm run dev",
+        "install:all": "npm install && cd backend && composer install && cd ../frontend && npm install",
+        "install:backend": "cd backend && composer install",
+        "install:frontend": "cd frontend && npm install",
+        "build:frontend": "cd frontend && npm run build",
+        "migrate": "cd backend && php artisan migrate",
+        "migrate:fresh": "cd backend && php artisan migrate:fresh --seed"
+    },
+    "devDependencies": {
+        "concurrently": "^9.0.1"
+    },
+    "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=9.0.0",
+        "php": ">=8.1"
+    }
+}
