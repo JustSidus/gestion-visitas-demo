@@ -1,204 +1,75 @@
-﻿
-# Institución Demo – Gestión de Visitas
+# Enterprise Visitor Management System
 
-Proyecto de gestión integral del flujo de visitas (registro, seguimiento, cierres, reportes y alertas) con backend Laravel y frontend Vue.js. Esta aplicación fue desarrollada **en solitario** por mí durante una pasantía y está publicada aquí como parte de mi portafolio. Para proteger a la institución donde se creó, **la app fue anonimizada** y los datos se sustituyeron por ejemplos realistas.
+A full-stack Single Page Application (SPA) engineered to digitize, secure, and streamline facility access workflows. 
 
----
+> **Disclaimer:** This repository contains a sanitized version of a production system built for a government agency. All sensitive data, institutional branding, real endpoints, and deployment pipelines have been anonymized or removed for public showcase.
 
-##  Descripción del Proyecto
-
-Este sistema fue diseñado para reemplazar el manejo de visitas mediante notas en papel, un método que generaba lentitud en la recepción, falta de controles de seguridad y nula trazabilidad de los datos.
-
-La aplicación digitaliza todo el ciclo de acceso, permitiendo registros ágiles, validación de alertas en tiempo real y reportes automáticos. Esto transformó un proceso manual y vulnerable en un sistema eficiente, seguro y auditable.
-
----
-
-##  Capturas de Pantalla
-
-A continuación, se muestran algunas capturas de pantalla de la aplicación en funcionamiento.
-
-### Pantalla de Inicio de Sesión (Login)
-<div align="center">
-  <img src="./assets/login-demo.png" alt="Captura de pantalla del Login" width="100%" style="max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-</div>
+### Tech Stack & Infrastructure
+![PHP](https://img.shields.io/badge/PHP_8-777BB4?style=flat-square&logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=flat-square&logo=laravel&logoColor=white)
+![Vue.js](https://img.shields.io/badge/Vue_3-35495E?style=flat-square&logo=vue.js&logoColor=4FC08D)
+![Microsoft Entra ID](https://img.shields.io/badge/Microsoft_Entra_ID-0078D4?style=flat-square&logo=microsoft&logoColor=white)
+![Azure](https://img.shields.io/badge/Microsoft_Azure-0089D6?style=flat-square&logo=microsoft-azure&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=flat-square&logo=mysql&logoColor=white)
 
 ---
 
-### Tablero Principal (Dashboard)
-<div align="center">
-  <img src="./assets/dashboard-demo.png" alt="Captura de pantalla del Dashboard" width="100%" style="max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-</div>
+## Business Impact
+This system was designed to replace vulnerable, legacy paper-based visitor logs. By digitizing the access lifecycle, the application enables real-time alert validation, automated reporting, and strict auditability, transforming a manual bottleneck into a highly secure and efficient process.
+
+## Architecture & Engineering Decisions
+
+### 1. Decoupled SPA & REST API
+*   **Backend (Laravel):** Exposes a secure RESTful API, enforcing business logic, data validation, and authorization boundaries.
+*   **Frontend (Vue 3 / Vite):** Component-based architecture utilizing Composables for reusable state logic and a centralized API service layer with Axios interceptors.
+
+### 2. Enterprise Authentication (SSO & JWT)
+Implemented a robust identity flow bridging Microsoft 365 and custom JWT authorization:
+*   Frontend leverages MSAL to authenticate via **Microsoft Entra ID (Azure AD)** and retrieves an OAuth `access_token`.
+*   The Laravel API validates the Microsoft token, provisions/syncs the internal user, and issues a proprietary, scoped JWT.
+*   Route Guards on the frontend and middleware on the backend enforce strict **Role-Based Access Control (RBAC)** across 4 distinct organizational profiles.
+
+### 3. Cloud Deployment (Azure)
+Architected and provisioned the original cloud infrastructure for the agency:
+*   **Azure App Service:** Hosted the Laravel REST API.
+*   **Azure Static Web Apps:** Delivered the Vue 3 SPA.
+*   **Azure Database for MySQL:** Managed the production persistence layer.
+*   *(Note: Original CI/CD pipelines have been detached in this sanitized version).*
 
 ---
 
-### Módulo de Estadísticas
-<div align="center">
-  <img src="./assets/statistics-demo.png" alt="Captura de pantalla de Estadísticas" width="100%" style="max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-</div>
+## System Preview
+
+### Login
+
+<img src="./assets/login-demo.png" alt="Captura de pantalla del Login" width="100%" style="max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+
+### Dashboard
+
+<img src="./assets/dashboard-demo.png" alt="Captura de pantalla del Dashboard" width="100%" style="max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+
+### Statistics
+
+<img src="./assets/statistics-demo.png" alt="Captura de pantalla de Estadísticas" width="100%" style="max-width: 800px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
 
 ---
 
-##  Funcionalidades principales
+## Local Development Setup
 
-- Registro y control de visitas con estados y cierre de salida.
-- Gestión de visitantes (datos de identificación, contacto y organización).
-- Flujos especiales para **casos misionales**.
-- Reportes (PDF/Excel) con filtros por rango de fechas, departamento y tipo.
-- Notificaciones por correo con plantilla institucional.
-- Panel de estadísticas (visitas activas, totales, promedios por día/semana).
-- Módulo de alertas/denuncias integrado a un catálogo maestro.
-- Gestión de usuarios y roles con permisos por perfil.
-
----
-
-##  Roles y permisos (demo)
-
-- **Administrador**: Acceso total, configuración y usuarios.
-- **Asistente Administrativo**: Gestión general de visitas (no misionales).
-- **Guardia**: Control de acceso, cierres y validaciones.
-- **Auxiliar Unidad de Gestión**: Gestión de visitas misionales activas.
-
----
-
-##  Stack tecnológico
-
-**Backend**
-- Laravel (API REST)
-- PHP 8.x
-- MySQL
-- JWT
-- Servicios de correo (configurable)
-
-**Frontend**
-- Vue 3 + Vite
-- Tailwind CSS
-- Axios
-- Componentes UI personalizados
-
-**DevOps / Infra (Azure – despliegue original)**
-- Azure App Service (API Laravel)
-- Azure Database for MySQL (datos de producción)
-- Azure Static Web Apps (SPA Vue)
-- Azure AD / Microsoft Entra ID (SSO)
-- Pipelines CI/CD (retirados en esta versión por anonimización)
-
----
-
-##  Arquitecturas usadas
-
-**Arquitectura cliente-servidor (SPA + API)**
-
-```mermaid
-graph LR
-    subgraph Cliente
-      Vue[SPA Vue 3]
-    end
-    subgraph Servidor
-      API[API Laravel]
-      DB[(MySQL)]
-    end
-    External[Microsoft Entra ID]
-    
-    Vue -->|JSON/HTTPS| API
-    API -->|Query| DB
-    Vue -.->|Auth SSO| External
-```
-
-- El frontend es una SPA en Vue que consume endpoints HTTP.
-- El backend Laravel expone la API, aplica reglas de negocio y autorización.
-- Persistencia relacional en MySQL.
-
-**Backend por capas (sobre MVC de Laravel)**
-
-**Estilo de API**
-
-- Predomina un estilo **API REST (pragmático)**:
-	- Recursos y verbos HTTP (`GET/POST/PUT/PATCH/DELETE`).
-	- Endpoints protegidos con JWT.
-	- Segmentación por dominio (`/visits`, `/admin/users`, `/alertas`, `/catalogos`).
-
-**Arquitectura frontend**
-
-- **Arquitectura basada en componentes** (Vue 3).
-- **Composables** para lógica reutilizable (estado y reglas de vista).
-- **Capa de servicios API** (Axios centralizado con interceptores de auth/errores).
-- **Route Guards** para control de acceso por autenticación y rol.
-
----
-
-##  Autenticación con Microsoft (SSO)
-
-Implementé el flujo de autenticación con **Microsoft Entra ID (Azure AD)** usando MSAL en el frontend:
-
-1. El usuario inicia sesión con Microsoft 365.
-2. MSAL obtiene un `access_token`.
-3. El frontend envía el token a la API Laravel.
-4. La API valida el token, registra/actualiza el usuario y emite JWT propio.
-5. El frontend usa el JWT para proteger rutas y consumir endpoints internos.
-
-Este flujo permite SSO corporativo y control de accesos por roles.
-
----
-
-## ️ DevOps / Azure (mi aporte)
-
-- Provisioné y configuré los servicios de Azure (App Service, DB, Static Web Apps).
-- Configuré variables de entorno, dominios, CORS, y enlaces entre servicios.
-- Implementé pipelines CI/CD para despliegue automatizado.
-- **Nota**: en esta versión pública/anónima se retiraron los pipelines por seguridad.
-
----
-
-## ️ Anonimización
-
-Esta versión reemplaza:
-- Nombres institucionales por **“Institución Demo”**.
-- Dominios, correos y URLs reales por ejemplos.
-- Credenciales reales y valores sensibles por placeholders.
-- Logs y artefactos de build por seguridad.
-
-La app conserva la estructura real para demostrar capacidades técnicas sin exponer datos.
-
----
-
-## Cómo ejecutar localmente (demo)
-
-### Requisitos
-- PHP 8.1+
-- Composer
-- Node.js 18+
-- npm 9+
-- MySQL
-
-### Pasos
-
-```powershell
-# 1) Instalar dependencias
+**Prerequisites:** PHP 8.1+, Composer, Node.js 18+, MySQL.
+```bash
+# 1. Install Full-Stack Dependencies
 npm run install:all
 
-# 2) Backend
+# 2. Configure Backend & Keys
 copy backend\.env.example backend\.env
 cd backend
 php artisan key:generate
 php artisan jwt:secret
 cd ..
 
-# 3) Migraciones + seeders (datos demo)
-npm run migrate
+# 3. Run Migrations & Seed Demo Data
 npm run migrate:fresh
 
-# 4) Ejecutar
+# 4. Spin up Local Dev Servers
 npm run dev
-```
-
----
-
-## ️ Autoría
-
-Proyecto desarrollado **100% por mí**: análisis, diseño, desarrollo, UI, integración con Microsoft y despliegue en Azure.
-
----
-
-##  Licencia
-
-Uso académico y de portafolio. No contiene datos reales de la institución original.
